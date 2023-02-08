@@ -5,18 +5,26 @@ import PropTypes from 'prop-types';
 
 const Modal = ({img, onCloseModal}) => {
 
-  useEffect(() =>{
+  useEffect(() => {
+    const closeModal = event => {
+      if (event.code === 'Escape' || event.target === event.currentTarget) {
+        onCloseModal();
+      }
+    };
+
     window.addEventListener('keydown', closeModal);
+
     return () => {
       window.removeEventListener('keydown', closeModal);
-    }
-  },[])
+    };
+  }, [onCloseModal]);
   
-  const closeModal = (event) => {
+  const closeModal = event => {
     if (event.code === 'Escape' || event.target === event.currentTarget) {
       onCloseModal();
     }
-  }
+  };
+  
 
   return createPortal(
     <div className="Overlay" onClick={closeModal}>
