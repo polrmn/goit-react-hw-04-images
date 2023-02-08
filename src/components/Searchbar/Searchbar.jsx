@@ -1,43 +1,41 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-class Searchbar extends Component {
-  state = {
-    query: '',
+
+const Searchbar = ({onSubmit}) => {
+  
+  const [query, setQuery] = useState('');
+
+  const hadleInputChange = event => {
+    setQuery(event.target.value)
   };
 
-  hadleInputChange = event => {
-    this.setState({ query: event.target.value });
-  };
-
-  handleFormSubmit = (event) => {
+  const handleFormSubmit = (event) => {
     event.preventDefault();
-    this.props.onSubmit(this.state.query);
-    this.setState({query: ''})
+    onSubmit(query);
+    setQuery('');
   }
 
-  render() {
-    return (
-      <header className="Searchbar">
-        <form className="SearchForm" onSubmit={this.handleFormSubmit}>
-          <button type="submit" className="SearchForm-button">
-            <span className="SearchForm-button-label">Search</span>
-          </button>
+  return (
+    <header className="Searchbar">
+      <form className="SearchForm" onSubmit={handleFormSubmit}>
+        <button type="submit" className="SearchForm-button">
+          <span className="SearchForm-button-label">Search</span>
+        </button>
 
-          <input
-            className="SearchForm-input"
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            name="query"
-            value={this.state.query}
-            onChange={this.hadleInputChange}
-          />
-        </form>
-      </header>
-    );
-  }
+        <input
+          className="SearchForm-input"
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          name="query"
+          value={query}
+          onChange={hadleInputChange}
+        />
+      </form>
+    </header>
+  );
 }
 
 Searchbar.propTypes = {
